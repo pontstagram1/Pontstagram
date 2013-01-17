@@ -2,7 +2,7 @@ from PIL import Image
 import ImageFilter
 import time
 import random
-im = Image.open("tour.jpg")
+im = Image.open("exemple.jpg")
 p = im.load()
 
 #////////////////////////  FONCTIONS ANNEXES  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
