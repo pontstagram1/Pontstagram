@@ -1,3 +1,0 @@
-Chef executif : Badis
-Chef informatique : Marie
-Technicien de surface : Kevin
