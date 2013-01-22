@@ -68,7 +68,7 @@ def filtre_vieux(im):
 
 #////////////////////////  TESTS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-filtre_vieux(im).show()
+#filtre_vieux(im).show()
     
 
 
