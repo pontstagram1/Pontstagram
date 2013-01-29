@@ -5,18 +5,18 @@ from PIL import Image, ImageQt
 import filtres_photos
 
 try:
-    _fromUtf8 = QtCore.QString.fromUtf8
+	_fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
+	def _fromUtf8(s):
+		return s
 
 try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+	_encoding = QtGui.QApplication.UnicodeUTF8
+	def _translate(context, text, disambig):
+		return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+	def _translate(context, text, disambig):
+		return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Dialog(object):
 	def setupUi(self, Dialog):
@@ -32,9 +32,19 @@ class Ui_Dialog(object):
 		self.label.setGeometry(QtCore.QRect(30, 10, 391, 301))
 		self.label.setScaledContents(True)
 		self.label.setObjectName(_fromUtf8("label"))
-		self.pushButton = QtGui.QPushButton(Dialog)
-		self.pushButton.setGeometry(QtCore.QRect(20, 360, 75, 23))
+		self.scrollArea = QtGui.QScrollArea(Dialog)
+		self.scrollArea.setGeometry(QtCore.QRect(160, 90, 71, 71))
+		self.scrollArea.setWidgetResizable(True)
+		self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
+		self.scrollAreaWidgetContents_2 = QtGui.QWidget()
+		self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 93, 52))
+		self.scrollAreaWidgetContents_2.setObjectName(_fromUtf8("scrollAreaWidgetContents_2"))
+		self.horizontalLayout_3 = QtGui.QHBoxLayout(self.scrollAreaWidgetContents_2)
+		self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
+		self.pushButton = QtGui.QPushButton(self.scrollAreaWidgetContents_2)
 		self.pushButton.setObjectName(_fromUtf8("pushButton"))
+		self.horizontalLayout_3.addWidget(self.pushButton)
+		self.scrollArea.setWidget(self.scrollAreaWidgetContents_2)
 		self.pushButton_2 = QtGui.QPushButton(Dialog)
 		self.pushButton_2.setGeometry(QtCore.QRect(100, 360, 75, 23))
 		self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
@@ -77,8 +87,8 @@ def appliquer_filtre1():
 	print_image(filtres_photos.test1(ui.Original))
 	
 QtCore.QObject.connect(ui.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_filtre1)
-    
+	
 if __name__ == "__main__":
-    Dialog.show()
-    sys.exit(app.exec_())
+	Dialog.show()
+	sys.exit(app.exec_())
 
