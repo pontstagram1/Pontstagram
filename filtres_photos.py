@@ -3,7 +3,7 @@ import ImageFilter
 import time
 import random
 from math import exp,pi,sqrt
-im = Image.open("paysage.jpg")
+
 
 
 #////////////////////////  FONCTIONS ANNEXES  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -162,6 +162,7 @@ def filtre_vieux_opt2(im):
 
 
 #////////////////////////  TESTS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#im = Image.open("paysage.jpg")
 #flou(im,5).show()
 
 
