@@ -55,7 +55,7 @@ class Ui_Dialog(object):
 		self.verticalSlider.setGeometry(QtCore.QRect(80, 70, 19, 160))
 		self.verticalSlider.setOrientation(QtCore.Qt.Vertical)
 		self.verticalSlider.setObjectName(_fromUtf8("verticalSlider"))
-		self.verticalSlider.setEnable(False)
+		self.verticalSlider.setEnabled(False)
 
 		self.retranslateUi(Dialog)
 		QtCore.QObject.connect(self.pushButton_quit, QtCore.SIGNAL(_fromUtf8("clicked()")), Dialog.reject)
@@ -102,11 +102,12 @@ def print_image (image):
 	ui.label.setPixmap(ui.affichage)
 
 def appliquer_filtre1():
-	ui.filtre_utilise = 1
-	print_image(filtres_photos.test1(ui.Original_petit))
+        ui.verticalSlider.setEnabled(False)
+        ui.filtre_utilise = 1
+        print_image(filtres_photos.aube(ui.Original_petit))
 	
 def appliquer_contraste():
-	ui.verticalSlider.setEnable(True)
+	ui.verticalSlider.setEnabled(True)
 	if (ui.fonction_slider!=selectFile) :
 		QtCore.QObject.disconnect(ui.verticalSlider, QtCore.SIGNAL(_fromUtf8("sliderReleased()")), ui.fonction_slider)
 	ui.fonction_slider=appliquer_contraste_value
@@ -124,7 +125,7 @@ def enregistrer():
 		return None
 	s=str(QtGui.QFileDialog.getSaveFileName())
 	if ui.filtre_utilise==1:
-		(filtres_photos.test1(ui.Original)).save(s)
+		(filtres_photos.aube(ui.Original)).save(s)
 	if ui.filtre_utilise==2:
 		(filtres_photos.contraste(ui.Original,ui.A,ui.A,ui.A)).save(s)
 

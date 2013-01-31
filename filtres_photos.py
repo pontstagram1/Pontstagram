@@ -52,7 +52,7 @@ def bruit(im,var):
     imtmp.putdata(pixels)
     return imtmp
 
-def flou_pixel(pixel,pixel2,x,y,w,h,a,b,c):
+def flou_pixel(im,pixel,pixel2,x,y,w,h,a,b,c):
     if (x>1) and (x<w-2) and (y>1) and (y<h-2):
         if im.mode =="RGB":
             pixel2[x,y]=(int(a*pixel[x,y][0]+(b*0.25)*(pixel[x-2,y][0]+pixel[x+2,y][0]+pixel[x,y-2][0]+pixel[x,y+2][0])+(c*0.25)*(pixel[x-2,y-2][0]+pixel[x-2,y+2][0]+pixel[x+2,y-2][0]+pixel[x+2,y+2][0])),
@@ -75,7 +75,7 @@ def flou(im,sigma):
     c=c/norm
     for x in range(W):
         for y in range(H):
-            flou_pixel(pixel,pixel2,x,y,W,H,a,b,c)
+            flou_pixel(im,pixel,pixel2,x,y,W,H,a,b,c)
     return imtmp
 
    
@@ -88,7 +88,7 @@ def flou_decroissant(im,sigma):
     milieuH=H/2
     for x in range(W):
         for y in range(H):
-            sigma2 = (abs(x-milieuW)+abs(y-milieuH))*sigma/(milieuW+milieuH)+0.01
+            sigma2 = (abs(x-milieuW)+abs(y-milieuH))*sigma/float((milieuW+milieuH))+0.01
             a= 1
             b= exp(-1/float(2*sigma2))
             c=  exp(-1/float(sigma2))
@@ -96,7 +96,7 @@ def flou_decroissant(im,sigma):
             a=a/norm
             b=b/norm
             c=c/norm
-            flou_pixel(pixel,pixel2,x,y,W,H,a,b,c)
+            flou_pixel(im,pixel,pixel2,x,y,W,H,a,b,c)
     return imtmp
 
 def cadre_polaroid(im):
@@ -215,7 +215,7 @@ def amaro(im):
 #////////////////////////  TESTS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
-#im = Image.open("jungle.jpg")
+#im = Image.open("noto.jpg")
 #aube(im).show()
 #nostalgie(im).show()
 #binary(im).show()

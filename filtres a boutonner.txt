@@ -1,0 +1,17 @@
+Filtres 
+
+aube(im)
+nostalgie(im)
+binary(im)
+amaro(im)
+filtre_vieux(im)
+amour_gloire_et_beaute(im)
+printemps_nucleaire(im)
+
+Fonctions annexes
+
+contraste(im,valR=1.0,valG=1.0,valB=1.0)
+luminosite(im,val)
+sepia(im)
+bruit(im,var)
+flou(im,sigma)
