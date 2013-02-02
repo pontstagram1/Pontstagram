@@ -314,12 +314,18 @@ def enregistrer():
 			(filtres_photos.flou(ui.Original,ui.A)).save(s)
 		elif ui.filtre_utilise==12:
 			(filtres_photos.sepia(ui.Original)).save(s)
-			
+		ui.label_2.setText("Image enregistree!")
+	else:
+		ui.label_2.setText("Enregistrement annule...")
 def text_filtre():
 	ui.label_2.setText("Patientez, application du filtre...")
 
+def text_enregistrer():
+	ui.label_2.setText("Patientez, application du filtre puis enregistrement...")
+
 QtCore.QObject.connect(ui.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), selectFile)
-QtCore.QObject.connect(ui.pushButton_save, QtCore.SIGNAL(_fromUtf8("clicked()")), enregistrer)
+QtCore.QObject.connect(ui.pushButton_save, QtCore.SIGNAL(_fromUtf8("released()")), enregistrer)
+QtCore.QObject.connect(ui.pushButton_save, QtCore.SIGNAL(_fromUtf8("pressed()")), text_enregistrer)
 QtCore.QObject.connect(ui.pushButton_1, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_aube)
 QtCore.QObject.connect(ui.pushButton_2, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_contraste)
 QtCore.QObject.connect(ui.pushButton_3, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_nostalgie)
