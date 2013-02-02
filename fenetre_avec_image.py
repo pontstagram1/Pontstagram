@@ -21,13 +21,18 @@ except AttributeError:
 class Ui_Dialog(object):
 	def setupUi(self, Dialog):
 		Dialog.setObjectName(_fromUtf8("Dialog"))
-		Dialog.resize(500, 500)
+		Dialog.resize(500, 600)
 		self.label = QtGui.QLabel(Dialog)
 		self.label.setGeometry(QtCore.QRect(30, 10, 391, 301))
 		self.label.setScaledContents(True)
 		self.label.setObjectName(_fromUtf8("label"))
+		self.label_2 = QtGui.QLabel(Dialog)
+		self.label_2.setGeometry(QtCore.QRect(100, 0, 300, 30))
+		self.label_2.setScaledContents(True)
+		self.label_2.setObjectName(_fromUtf8("label_2"))
+		self.label_2.setAlignment( QtCore.Qt.AlignCenter )
 		self.scrollArea = QtGui.QScrollArea(Dialog)
-		self.scrollArea.setGeometry(QtCore.QRect(0, 415, 500, 55))
+		self.scrollArea.setGeometry(QtCore.QRect(0, 512, 500, 61))
 		self.scrollArea.setWidgetResizable(True)
 		self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
 		self.scrollAreaWidgetContents_2 = QtGui.QWidget()
@@ -36,7 +41,7 @@ class Ui_Dialog(object):
 		self.horizontalLayout_3 = QtGui.QHBoxLayout(self.scrollAreaWidgetContents_2)
 		self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
 		self.pushButton = QtGui.QPushButton(Dialog)
-		self.pushButton.setGeometry(QtCore.QRect(30, 474, 74, 22))
+		self.pushButton.setGeometry(QtCore.QRect(30, 574, 74, 22))
 		self.pushButton.setObjectName(_fromUtf8("pushButton"))
 		self.scrollArea.setWidget(self.scrollAreaWidgetContents_2)
 		self.pushButton_1 = QtGui.QPushButton(self.scrollAreaWidgetContents_2)
@@ -44,18 +49,18 @@ class Ui_Dialog(object):
 		self.horizontalLayout_3.addWidget(self.pushButton_1)
 		self.pushButton_1.setEnabled(False)
 		self.pushButton_save = QtGui.QPushButton(Dialog)
-		self.pushButton_save.setGeometry(QtCore.QRect(213, 474, 74, 22))
+		self.pushButton_save.setGeometry(QtCore.QRect(213, 574, 74, 22))
 		self.pushButton_save.setObjectName(_fromUtf8("pushButton_save"))
 		self.pushButton_save.setEnabled(False)
 		self.pushButton_quit = QtGui.QPushButton(Dialog)
-		self.pushButton_quit.setGeometry(QtCore.QRect(396, 474, 74, 22))
+		self.pushButton_quit.setGeometry(QtCore.QRect(396, 574, 74, 22))
 		self.pushButton_quit.setObjectName(_fromUtf8("pushButton_quit"))
 		self.pushButton_2 = QtGui.QPushButton(self.scrollAreaWidgetContents_2)
 		self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
 		self.horizontalLayout_3.addWidget(self.pushButton_2)
 		self.pushButton_2.setEnabled(False)
 		self.horizontalSlider = QtGui.QSlider(Dialog)
-		self.horizontalSlider.setGeometry(QtCore.QRect(30, 390, 440, 20))
+		self.horizontalSlider.setGeometry(QtCore.QRect(30, 490, 440, 20))
 		self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
 		self.horizontalSlider.setObjectName(_fromUtf8("horizontalSlider"))
 		self.horizontalSlider.setEnabled(False)
@@ -137,6 +142,7 @@ def selectFile():
 	ui.filtre_utilise = 0
 	adresse=str(QtGui.QFileDialog.getOpenFileName())
 	if(adresse!=""):
+		ui.label_2.setText("Chargement image...")
 		ui.Original=Image.open(adresse,"r")	# format PIL
 		if(ui.Original.size[1]<ui.Original.size[0]):
 			ui.Original_petit=ui.Original.resize((440,ui.Original.size[1]*440/ui.Original.size[0]))
@@ -156,6 +162,7 @@ def selectFile():
 		ui.pushButton_10.setEnabled(True)
 		ui.pushButton_11.setEnabled(True)
 		ui.pushButton_12.setEnabled(True)
+		ui.label_2.setText("Image chargee!")
 
 ui.fonction_slider=selectFile
 	
@@ -163,15 +170,17 @@ def print_image (image):
 	ui.temp = ImageQt.ImageQt(image) # format ImageQt
 	ui.affichage = QtGui.QPixmap.fromImage(ui.temp) # format QPixmap
 	if ui.affichage.height()<ui.affichage.width() :
-		ui.label.setGeometry(QtCore.QRect(30, 30, 440, 440*ui.affichage.height()/ui.affichage.width()))
+		ui.label.setGeometry(QtCore.QRect(30, 250-220*ui.affichage.height()/ui.affichage.width(), 440, 440*ui.affichage.height()/ui.affichage.width()))
 	else :
-		ui.label.setGeometry(QtCore.QRect(250-170*ui.affichage.width()/ui.affichage.height(), 30, 340*ui.affichage.width()/ui.affichage.height(), 340))
+		ui.label.setGeometry(QtCore.QRect(250-220*ui.affichage.width()/ui.affichage.height(), 30, 440*ui.affichage.width()/ui.affichage.height(), 440))
 	ui.label.setPixmap(ui.affichage)
 
 def appliquer_aube():
-		ui.horizontalSlider.setEnabled(False)
-		ui.filtre_utilise = 1
-		print_image(filtres_photos.aube(ui.Original_petit))
+	Dialog.show()
+	ui.horizontalSlider.setEnabled(False)
+	ui.filtre_utilise = 1
+	print_image(filtres_photos.aube(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 	
 def appliquer_contraste():
 	print_image(ui.Original_petit)
@@ -181,6 +190,7 @@ def appliquer_contraste():
 	ui.fonction_slider=appliquer_contraste_value
 	ui.horizontalSlider.setValue(50)
 	QtCore.QObject.connect(ui.horizontalSlider, QtCore.SIGNAL(_fromUtf8("sliderReleased()")), ui.fonction_slider)
+	ui.label_2.setText("Modifiez la position du curseur...")
 
 def appliquer_contraste_value():
 	ui.filtre_utilise = 2
@@ -191,31 +201,37 @@ def appliquer_nostalgie():
 	ui.horizontalSlider.setEnabled(False)
 	ui.filtre_utilise = 3
 	print_image(filtres_photos.nostalgie(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 
 def appliquer_binary():
 	ui.horizontalSlider.setEnabled(False)
 	ui.filtre_utilise = 4
 	print_image(filtres_photos.binary(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 	
 def appliquer_amaro():
 	ui.horizontalSlider.setEnabled(False)
 	ui.filtre_utilise = 5
 	print_image(filtres_photos.amaro(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 	
 def appliquer_filtre_vieux():
 	ui.horizontalSlider.setEnabled(False)
 	ui.filtre_utilise = 6
 	print_image(filtres_photos.filtre_vieux(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 	
 def appliquer_amour_gloire_et_beaute():
 	ui.horizontalSlider.setEnabled(False)
 	ui.filtre_utilise = 7
 	print_image(filtres_photos.amour_gloire_et_beaute(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 	
 def appliquer_printemps_nucleaire():
 	ui.horizontalSlider.setEnabled(False)
 	ui.filtre_utilise = 8
 	print_image(filtres_photos.printemps_nucleaire(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 	
 def appliquer_luminosite():
 	print_image(ui.Original_petit)
@@ -225,6 +241,7 @@ def appliquer_luminosite():
 	ui.fonction_slider=appliquer_luminosite_value
 	ui.horizontalSlider.setValue(50)
 	QtCore.QObject.connect(ui.horizontalSlider, QtCore.SIGNAL(_fromUtf8("sliderReleased()")), ui.fonction_slider)
+	ui.label_2.setText("Modifiez la position du curseur...")
 
 def appliquer_luminosite_value():
 	ui.filtre_utilise = 9
@@ -239,6 +256,7 @@ def appliquer_bruit():
 	ui.fonction_slider=appliquer_bruit_value
 	ui.horizontalSlider.setValue(0)
 	QtCore.QObject.connect(ui.horizontalSlider, QtCore.SIGNAL(_fromUtf8("sliderReleased()")), ui.fonction_slider)
+	ui.label_2.setText("Modifiez la position du curseur...")
 
 def appliquer_bruit_value():
 	ui.filtre_utilise = 10
@@ -253,6 +271,7 @@ def appliquer_flou():
 	ui.fonction_slider=appliquer_flou_value
 	ui.horizontalSlider.setValue(0)
 	QtCore.QObject.connect(ui.horizontalSlider, QtCore.SIGNAL(_fromUtf8("sliderReleased()")), ui.fonction_slider)
+	ui.label_2.setText("Modifiez la position du curseur...")
 
 def appliquer_flou_value():
 	ui.filtre_utilise = 11
@@ -263,10 +282,11 @@ def appliquer_sepia():
 	ui.horizontalSlider.setEnabled(False)
 	ui.filtre_utilise = 12
 	print_image(filtres_photos.sepia(ui.Original_petit))
+	ui.label_2.setText("Filtre applique!")
 	
 def enregistrer():
 	if ui.filtre_utilise==0:
-		print "L'image n'a pas ete modifiee"
+		ui.label_2.setText("L'image n'a pas ete modifiee... o.O")
 		return None
 	s=str(QtGui.QFileDialog.getSaveFileName())
 	if(s!=""):
@@ -294,21 +314,32 @@ def enregistrer():
 			(filtres_photos.flou(ui.Original,ui.A)).save(s)
 		elif ui.filtre_utilise==12:
 			(filtres_photos.sepia(ui.Original)).save(s)
+			
+def text_filtre():
+	ui.label_2.setText("Patientez, application du filtre...")
 
 QtCore.QObject.connect(ui.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), selectFile)
-QtCore.QObject.connect(ui.pushButton_1, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_aube)
 QtCore.QObject.connect(ui.pushButton_save, QtCore.SIGNAL(_fromUtf8("clicked()")), enregistrer)
-QtCore.QObject.connect(ui.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_contraste)
-QtCore.QObject.connect(ui.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_nostalgie)
-QtCore.QObject.connect(ui.pushButton_4, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_binary)
-QtCore.QObject.connect(ui.pushButton_5, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_amaro)
-QtCore.QObject.connect(ui.pushButton_6, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_filtre_vieux)
-QtCore.QObject.connect(ui.pushButton_7, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_amour_gloire_et_beaute)
-QtCore.QObject.connect(ui.pushButton_8, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_printemps_nucleaire)
-QtCore.QObject.connect(ui.pushButton_9, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_luminosite)
-QtCore.QObject.connect(ui.pushButton_10, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_bruit)
-QtCore.QObject.connect(ui.pushButton_11, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_flou)
-QtCore.QObject.connect(ui.pushButton_12, QtCore.SIGNAL(_fromUtf8("clicked()")), appliquer_sepia)
+QtCore.QObject.connect(ui.pushButton_1, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_aube)
+QtCore.QObject.connect(ui.pushButton_2, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_contraste)
+QtCore.QObject.connect(ui.pushButton_3, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_nostalgie)
+QtCore.QObject.connect(ui.pushButton_4, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_binary)
+QtCore.QObject.connect(ui.pushButton_5, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_amaro)
+QtCore.QObject.connect(ui.pushButton_6, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_filtre_vieux)
+QtCore.QObject.connect(ui.pushButton_7, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_amour_gloire_et_beaute)
+QtCore.QObject.connect(ui.pushButton_8, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_printemps_nucleaire)
+QtCore.QObject.connect(ui.pushButton_9, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_luminosite)
+QtCore.QObject.connect(ui.pushButton_10, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_bruit)
+QtCore.QObject.connect(ui.pushButton_11, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_flou)
+QtCore.QObject.connect(ui.pushButton_12, QtCore.SIGNAL(_fromUtf8("released()")), appliquer_sepia)
+QtCore.QObject.connect(ui.pushButton_1, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
+QtCore.QObject.connect(ui.pushButton_3, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
+QtCore.QObject.connect(ui.pushButton_4, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
+QtCore.QObject.connect(ui.pushButton_5, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
+QtCore.QObject.connect(ui.pushButton_6, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
+QtCore.QObject.connect(ui.pushButton_7, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
+QtCore.QObject.connect(ui.pushButton_8, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
+QtCore.QObject.connect(ui.pushButton_12, QtCore.SIGNAL(_fromUtf8("pressed()")), text_filtre)
 	
 if __name__ == "__main__":
 	Dialog.show()
