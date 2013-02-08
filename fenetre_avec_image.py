@@ -22,6 +22,8 @@ class Ui_Dialog(object):
 	def setupUi(self, Dialog):
 		Dialog.setObjectName(_fromUtf8("Dialog"))
 		Dialog.resize(500, 600)
+		Dialog.setMaximumSize(500,600)
+		Dialog.setMinimumSize(500,600)
 		self.label = QtGui.QLabel(Dialog)
 		self.label.setGeometry(QtCore.QRect(30, 10, 391, 301))
 		self.label.setScaledContents(True)
@@ -110,7 +112,7 @@ class Ui_Dialog(object):
 		QtCore.QMetaObject.connectSlotsByName(Dialog)
 		
 	def retranslateUi(self, Dialog):
-		Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
+		Dialog.setWindowTitle(_translate("Dialog", "Ponstagram by IMInulati", None))
 		self.label.setText(_translate("Dialog", "", None))
 		self.pushButton.setText(_translate("Dialog", "Ouvrir", None))
 		self.pushButton_1.setText(_translate("Dialog", "Aube", None))
@@ -136,6 +138,8 @@ ui.setupUi(Dialog)
 ui.Original = Image.new("RGB",(1,1)) # Image initiale en PIL
 ui.Original_petit = Image.new("RGB",(1,1)) # Image plus petite pour accélérer les visualisations temporaires
 ui.filtre_utilise = 0
+ui.label.setGeometry(75,152,350,196)
+ui.label.setPixmap(QtGui.QPixmap("logo.png"))
 
 
 def selectFile():
@@ -147,7 +151,7 @@ def selectFile():
 		if(ui.Original.size[1]<ui.Original.size[0]):
 			ui.Original_petit=ui.Original.resize((440,ui.Original.size[1]*440/ui.Original.size[0]))
 		else:
-			ui.Original_petit=ui.Original.resize((340,ui.Original.size[1]*340/ui.Original.size[0]))
+			ui.Original_petit=ui.Original.resize((ui.Original.size[0]*440/ui.Original.size[1],440))
 		print_image(ui.Original_petit)
 		ui.pushButton_save.setEnabled(True)
 		ui.pushButton_1.setEnabled(True)
@@ -167,7 +171,7 @@ def selectFile():
 ui.fonction_slider=selectFile
 	
 def print_image (image):
-	ui.temp = ImageQt.ImageQt(image) # format ImageQt
+	ui.temp = ImageQt.ImageQt(image.convert("RGB")) # format ImageQt
 	ui.affichage = QtGui.QPixmap.fromImage(ui.temp) # format QPixmap
 	if ui.affichage.height()<ui.affichage.width() :
 		ui.label.setGeometry(QtCore.QRect(30, 250-220*ui.affichage.height()/ui.affichage.width(), 440, 440*ui.affichage.height()/ui.affichage.width()))
