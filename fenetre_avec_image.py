@@ -249,8 +249,8 @@ def appliquer_luminosite():
 
 def appliquer_luminosite_value():
 	ui.filtre_utilise = 9
-	ui.A=(50-ui.horizontalSlider.sliderPosition())/float(30)
-	print_image(filtres_photos.contraste(ui.Original_petit,ui.A))
+	ui.A=2*(50-ui.horizontalSlider.sliderPosition())
+	print_image(filtres_photos.luminosite(ui.Original_petit,ui.A))
 
 def appliquer_bruit():
 	print_image(ui.Original_petit)
